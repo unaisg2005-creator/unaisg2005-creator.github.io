@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connect · +Q Clips</title><meta name="description" content="Authorization return page."><meta name="robots" content="noindex">
+<link rel="stylesheet" href="/style.css">
+<!-- VERIFICACIÓN DE GOOGLE SEARCH CONSOLE: pega aquí la etiqueta <meta name="google-site-verification" ...> -->
+</head><body><main>
+<header><span class="logo">+Q</span><strong>+Q Clips</strong></header>
+<h1>Connection step</h1>
+<p>Copy this full address and paste it in the "codigo" field of the "5 · Conectar una cuenta" job (step <code>canjear</code>). This page does not send it anywhere.</p>
+<div class="card"><code id="url"></code></div>
+<p><button id="copiar" type="button">Copy address</button> <span id="ok" class="muted"></span></p>
+<p class="muted" id="error"></p>
+<script>
+  var u = location.href, el = document.getElementById("url");
+  el.textContent = u;
+  var p = new URLSearchParams(location.search);
+  if (p.get("error")) document.getElementById("error").textContent = "The platform returned an error: " + p.get("error") + " " + (p.get("error_description") || "");
+  else if (!p.get("code")) document.getElementById("error").textContent = "This address has no code. Start again from the authorization link.";
+  document.getElementById("copiar").onclick = function () {
+    var ok = document.getElementById("ok");
+    navigator.clipboard.writeText(u).then(function () { ok.textContent = "Copied"; }, function () {
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r); ok.textContent = "Selected: copy it with your phone";
+    });
+  };
+</script>
+</main></body></html>
